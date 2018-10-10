@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<assembly>
+    <id>plugin</id>
+    <formats>
+        <format>zip</format>
+    </formats>
+    <includeBaseDirectory>false</includeBaseDirectory>
+    <fileSets>
+        <fileSet>
+            <directory>${project.basedir}/config</directory>
+            <outputDirectory>config</outputDirectory>
+        </fileSet>
+    </fileSets>
+    <files>
+        <file>
+            <source>${project.basedir}/src/main/resources/plugin-descriptor.properties</source>
+            <filtered>true</filtered>
+        </file>
+        <file>
+            <source>${project.basedir}/src/main/resources/plugin-security.policy</source>
+            <outputDirectory/>
+            <filtered>true</filtered>
+        </file>
+    </files>
+    <dependencySets>
+        <dependencySet>
+            <outputDirectory>/</outputDirectory>
+            <useProjectArtifact>true</useProjectArtifact>
+            <useTransitiveFiltering>true</useTransitiveFiltering>
+            <excludes>
+                <exclude>org.elasticsearch:elasticsearch</exclude>
+                <exclude>com.hankcs:hanlp</exclude>
+            </excludes>
+        </dependencySet>
+    </dependencySets>
+</assembly>
