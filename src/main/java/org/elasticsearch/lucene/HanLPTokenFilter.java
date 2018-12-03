@@ -1,4 +1,4 @@
-package org.elasticsearch.hanlp.lucene;
+package org.elasticsearch.lucene;
 
 import com.hankcs.hanlp.corpus.tag.Nature;
 import com.hankcs.hanlp.seg.common.Term;

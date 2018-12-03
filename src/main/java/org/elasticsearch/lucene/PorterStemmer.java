@@ -1,4 +1,4 @@
-package org.elasticsearch.hanlp.lucene;
+package org.elasticsearch.lucene;
 
 import org.apache.lucene.util.ArrayUtil;
 

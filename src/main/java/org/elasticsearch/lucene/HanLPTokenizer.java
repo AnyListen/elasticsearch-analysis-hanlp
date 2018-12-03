@@ -1,4 +1,4 @@
-package org.elasticsearch.hanlp.lucene;
+package org.elasticsearch.lucene;
 
 
 import com.hankcs.hanlp.collection.trie.bintrie.BinTrie;

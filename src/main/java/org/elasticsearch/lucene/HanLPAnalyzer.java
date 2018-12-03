@@ -1,4 +1,4 @@
-package org.elasticsearch.hanlp.lucene;
+package org.elasticsearch.lucene;
 
 import com.hankcs.hanlp.HanLP;
 import com.hankcs.hanlp.seg.Segment;
