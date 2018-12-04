@@ -1,4 +1,4 @@
-package org.elasticsearch.lucene;
+package org.elasticsearch.plugin.hanlp.lucene;
 
 import com.hankcs.hanlp.corpus.tag.Nature;
 import com.hankcs.hanlp.seg.common.Term;
@@ -36,7 +36,7 @@ public class HanLPTokenFilter extends TokenFilter {
         if (this.input.incrementToken()) {
             char[] text = this.termAtt.buffer();
             List<Term> terms;
-            switch (this.mode){
+            switch (this.mode) {
                 //todo 实现分词
 
 //                case "t2s":

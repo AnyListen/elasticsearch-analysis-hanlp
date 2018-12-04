@@ -11,26 +11,24 @@
             <outputDirectory>/</outputDirectory>
         </fileSet>
     </fileSets>
-    <files>
-        <file>
-            <source>${project.basedir}/src/main/resources/plugin-descriptor.properties</source>
-            <filtered>true</filtered>
-        </file>
-        <file>
-            <source>${project.basedir}/src/main/resources/plugin-security.policy</source>
-            <outputDirectory/>
-            <filtered>true</filtered>
-        </file>
-    </files>
     <dependencySets>
         <dependencySet>
             <outputDirectory>/</outputDirectory>
             <useProjectArtifact>true</useProjectArtifact>
             <useTransitiveFiltering>true</useTransitiveFiltering>
+            <unpack>false</unpack>
             <excludes>
                 <exclude>org.elasticsearch:elasticsearch</exclude>
-                <exclude>com.hankcs:hanlp</exclude>
             </excludes>
+        </dependencySet>
+        <dependencySet>
+            <outputDirectory>/</outputDirectory>
+            <useProjectArtifact>true</useProjectArtifact>
+            <useTransitiveFiltering>true</useTransitiveFiltering>
+            <unpack>false</unpack>
+            <includes>
+                <include>com.hankcs:hanlp</include>
+            </includes>
         </dependencySet>
     </dependencySets>
 </assembly>

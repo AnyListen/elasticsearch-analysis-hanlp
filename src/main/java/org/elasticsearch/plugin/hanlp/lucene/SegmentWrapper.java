@@ -8,7 +8,7 @@
  * Copyright (c) 2003-2015, hankcs. All Right Reserved, http://www.hankcs.com/
  * </copyright>
  */
-package org.elasticsearch.lucene;
+package org.elasticsearch.plugin.hanlp.lucene;
 
 import com.hankcs.hanlp.seg.Segment;
 import com.hankcs.hanlp.seg.common.Term;
@@ -25,8 +25,7 @@ import java.util.Set;
  *
  * @author hankcs
  */
-public class SegmentWrapper
-{
+public class SegmentWrapper {
     /**
      * 输入
      */
@@ -59,8 +58,7 @@ public class SegmentWrapper
     /**
      * 句子分隔符
      */
-    private static final Set<Character> delimiterCharSet = new HashSet<Character>()
-    {{
+    private static final Set<Character> delimiterCharSet = new HashSet<Character>() {{
         add('\r');
         add('\n');
         add('。');
@@ -68,8 +66,7 @@ public class SegmentWrapper
         add('！');
     }};
 
-    public SegmentWrapper(Reader reader, Segment segment)
-    {
+    public SegmentWrapper(Reader reader, Segment segment) {
         this.input = reader;
         this.segment = segment;
     }
@@ -79,22 +76,19 @@ public class SegmentWrapper
      *
      * @param reader
      */
-    public void reset(Reader reader)
-    {
+    public void reset(Reader reader) {
         input = reader;
         offset = 0;
         iterator = null;
     }
 
-    public Term next() throws IOException
-    {
+    public Term next() throws IOException {
         if (iterator != null && iterator.hasNext()) return iterator.next();
         String line = readLine();
         if (line == null) return null;
         List<Term> termList = segment.seg(line);
         if (termList.size() == 0) return null;
-        for (Term term : termList)
-        {
+        for (Term term : termList) {
             term.offset += offset;
         }
         offset += line.length();
@@ -102,20 +96,16 @@ public class SegmentWrapper
         return iterator.next();
     }
 
-    private String readLine() throws IOException
-    {
+    private String readLine() throws IOException {
         int offset = 0;
         int length = BUFFER_SIZE;
-        if (remainSize > 0)
-        {
+        if (remainSize > 0) {
             offset = remainSize;
             length -= remainSize;
         }
         int n = input.read(buffer, offset, length);
-        if (n < 0)
-        {
-            if (remainSize != 0)
-            {
+        if (n < 0) {
+            if (remainSize != 0) {
                 String lastLine = new String(buffer, 0, remainSize);
                 remainSize = 0;
                 return lastLine;
@@ -131,12 +121,9 @@ public class SegmentWrapper
         return line;
     }
 
-    private int lastIndexOfEos(char[] buffer, int length)
-    {
-        for (int i = length - 1; i > 0; i--)
-        {
-            if (delimiterCharSet.contains(buffer[i]))
-            {
+    private int lastIndexOfEos(char[] buffer, int length) {
+        for (int i = length - 1; i > 0; i--) {
+            if (delimiterCharSet.contains(buffer[i])) {
                 return i + 1;
             }
         }

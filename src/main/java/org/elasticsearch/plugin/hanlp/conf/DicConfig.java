@@ -1,14 +1,14 @@
-package org.elasticsearch.hanlp.conf;
+package org.elasticsearch.plugin.hanlp.conf;
 
 import com.hankcs.hanlp.utility.Predefine;
 import com.hankcs.hanlp.utility.TextUtility;
 import org.apache.logging.log4j.Logger;
 import org.elasticsearch.common.inject.Inject;
 import org.elasticsearch.common.io.PathUtils;
-import org.elasticsearch.common.logging.ESLoggerFactory;
+import org.elasticsearch.common.logging.Loggers;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.env.Environment;
-import org.elasticsearch.plugin.AnalysisHanLPPlugin;
+import org.elasticsearch.plugin.hanlp.AnalysisHanLPPlugin;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -22,7 +22,7 @@ import java.util.Properties;
  * Created by hezl on 2018-11-20.
  */
 public class DicConfig {
-    private final Logger logger = ESLoggerFactory.getLogger(DicConfig.class);
+    private static final Logger logger = Loggers.getLogger(DicConfig.class, "*");
     private Environment env;
     private Settings settings;
     private String configPath;

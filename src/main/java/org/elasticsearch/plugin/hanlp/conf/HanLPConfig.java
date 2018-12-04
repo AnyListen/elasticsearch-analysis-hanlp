@@ -1,4 +1,4 @@
-package org.elasticsearch.hanlp.conf;
+package org.elasticsearch.plugin.hanlp.conf;
 
 /**
  * elasticsearch-analysis-hanlp
@@ -40,7 +40,7 @@ public class HanLPConfig {
     /**
      * 停用词词典路径
      */
-    private boolean stopWordDictionaryPath;
+    private String stopWordDictionaryPath;
     /**
      * 是否启用数词和数量词识别
      */
@@ -110,11 +110,11 @@ public class HanLPConfig {
         this.enableCustomDictionaryForcing = enableCustomDictionaryForcing;
     }
 
-    public boolean isStopWordDictionaryPath() {
+    public String getStopWordDictionaryPath() {
         return stopWordDictionaryPath;
     }
 
-    public void setStopWordDictionaryPath(boolean stopWordDictionaryPath) {
+    public void setStopWordDictionaryPath(String stopWordDictionaryPath) {
         this.stopWordDictionaryPath = stopWordDictionaryPath;
     }
 
