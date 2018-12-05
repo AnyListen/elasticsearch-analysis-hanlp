@@ -1,20 +1,21 @@
 package org.elasticsearch.plugin.hanlp.conf;
 
 
+import com.hankcs.hanlp.HanLP;
 import com.hankcs.hanlp.utility.Predefine;
 import com.hankcs.hanlp.utility.TextUtility;
 import org.apache.logging.log4j.Logger;
-import org.elasticsearch.common.inject.Inject;
-import org.elasticsearch.common.io.PathUtils;
+import org.elasticsearch.SpecialPermission;
 import org.elasticsearch.common.logging.Loggers;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.env.Environment;
-import org.elasticsearch.plugin.hanlp.AnalysisHanLPPlugin;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.nio.file.Path;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.Properties;
 
 /**
@@ -24,92 +25,73 @@ import java.util.Properties;
  */
 public class DicConfig {
     private static final Logger logger = Loggers.getLogger(DicConfig.class, "*");
-    private Environment env;
-    private Settings settings;
-    private String configPath;
-    private String remoteDicUrl;
-
-    @Inject
-    public DicConfig(Environment env, Settings settings){
-        this.env = env;
-        this.settings = settings;
-        initConfig();
-    }
+    private static Environment env;
+    private static Settings settings;
+    private static String configPath;
+    private static String remoteDicUrl;
+    private static boolean isInit;
 
     /**
      * 根据配置文件
      * 初始化词典以及远程更新配置
      */
-    private void initConfig() {
+    public static synchronized void initConfig(Environment env, Settings settings) {
+        if (isInit) {
+            return;
+        }
+        DicConfig.env = env;
+        DicConfig.settings = settings;
         File configFile = getConfigFilePath().toFile();
-        if (!configFile.exists()){
+        if (!configFile.exists()) {
             return;
         }
         Properties properties = new Properties();
-        try(InputStreamReader inputStreamReader = new InputStreamReader(new FileInputStream(configFile))){
+        try (InputStreamReader inputStreamReader = new InputStreamReader(new FileInputStream(configFile))) {
             properties.load(inputStreamReader);
-            this.configPath = properties.getProperty("configPath", null);
-            this.remoteDicUrl = properties.getProperty("remoteDicUrl", "");
-            if (TextUtility.isBlank(this.configPath)){
-                if (getDefDicConfigPath().toFile().exists()){
-                    this.configPath = getPluginPath().toAbsolutePath().toString();
+            configPath = properties.getProperty("configPath", null);
+            remoteDicUrl = properties.getProperty("remoteDicUrl", "");
+            if (TextUtility.isBlank(configPath)) {
+                if (getDefDicConfigPath().toFile().exists()) {
+                    configPath = getDefDicConfigPath().toAbsolutePath().toString();
+                    Properties cfProp = new Properties();
+                    FileInputStream inputStream = new FileInputStream(configPath);
+                    cfProp.load(inputStream);
+                    if (!cfProp.containsKey("root")){
+                        configPath = null;
+                    }
+                    inputStream.close();
+                    cfProp.clear();
                 }
             }
-            if (TextUtility.isBlank(this.configPath)){
-                this.configPath = null;
+            if (TextUtility.isBlank(configPath)) {
+                configPath = null;
             }
-            Predefine.HANLP_PROPERTIES_PATH = this.configPath;
+            Predefine.HANLP_PROPERTIES_PATH = configPath;
+            logger.info("HanLP Properties Path: " + Predefine.HANLP_PROPERTIES_PATH);
+            SpecialPermission.check();
+            AccessController.doPrivileged((PrivilegedAction<Void>) () -> {
+                System.out.println(HanLP.segment("HanLP中文分词工具包！"));
+                return null;
+            });
+
             //todo 远程更新
-        }
-        catch (Exception ex){
+        } catch (Exception ex) {
             logger.error(ex);
-        }
-        finally {
+        } finally {
             properties.clear();
         }
+        isInit = true;
     }
 
-    private Path getPluginPath(){
-        return this.env.modulesFile().resolve("analysis-hanlp").toAbsolutePath();
+    private static Path getPluginPath() {
+        return env.pluginsFile().resolve("analysis-hanlp");
     }
 
-    private Path getDefDicConfigPath() {
-        return this.env.modulesFile().resolve("analysis-hanlp/hanlp.properties").toAbsolutePath();
+    private static Path getDefDicConfigPath() {
+        return env.pluginsFile().resolve("analysis-hanlp/hanlp.properties").toAbsolutePath();
     }
 
-    private Path getConfigFilePath() {
-        return this.env.modulesFile().resolve("analysis-hanlp/plugin.properties").toAbsolutePath();
-    }
-
-    public Environment getEnv() {
-        return env;
-    }
-
-    public void setEnv(Environment env) {
-        this.env = env;
-    }
-
-    public Settings getSettings() {
-        return settings;
-    }
-
-    public void setSettings(Settings settings) {
-        this.settings = settings;
-    }
-
-    public String getConfigPath() {
-        return configPath;
-    }
-
-    public void setConfigPath(String configPath) {
-        this.configPath = configPath;
-    }
-
-    public String getRemoteDicUrl() {
-        return remoteDicUrl;
-    }
-
-    public void setRemoteDicUrl(String remoteDicUrl) {
-        this.remoteDicUrl = remoteDicUrl;
+    private static Path getConfigFilePath() {
+        return env.pluginsFile().resolve("analysis-hanlp/plugin.properties").toAbsolutePath();
     }
 }

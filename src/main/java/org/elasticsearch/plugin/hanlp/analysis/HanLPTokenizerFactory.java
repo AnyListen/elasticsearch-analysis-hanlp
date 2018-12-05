@@ -9,6 +9,7 @@ import org.elasticsearch.env.Environment;
 import org.elasticsearch.index.IndexSettings;
 import org.elasticsearch.index.analysis.AbstractTokenizerFactory;
 import org.elasticsearch.plugin.hanlp.conf.ConfigHelper;
+import org.elasticsearch.plugin.hanlp.conf.DicConfig;
 import org.elasticsearch.plugin.hanlp.conf.HanLPConfig;
 import org.elasticsearch.plugin.hanlp.lucene.HanLPTokenizer;
 
@@ -24,11 +25,13 @@ public class HanLPTokenizerFactory extends AbstractTokenizerFactory {
 
     public HanLPTokenizerFactory(IndexSettings indexSettings, Environment env, String name, Settings settings) {
         super(indexSettings, name, settings);
+        DicConfig.initConfig(env, settings);
         tuple = ConfigHelper.getSegmentAndFilter(settings);
     }
 
     public HanLPTokenizerFactory(IndexSettings indexSettings, Environment env, String name, Settings settings, HanLPConfig config) {
         super(indexSettings, name, settings);
+        DicConfig.initConfig(env, settings);
         tuple = Tuple.tuple(ConfigHelper.getSegment(config), ConfigHelper.getStopWords(config));
     }
 

@@ -8,6 +8,7 @@ import org.elasticsearch.env.Environment;
 import org.elasticsearch.index.IndexSettings;
 import org.elasticsearch.index.analysis.AbstractIndexAnalyzerProvider;
 import org.elasticsearch.plugin.hanlp.conf.ConfigHelper;
+import org.elasticsearch.plugin.hanlp.conf.DicConfig;
 import org.elasticsearch.plugin.hanlp.conf.HanLPConfig;
 import org.elasticsearch.plugin.hanlp.lucene.HanLPAnalyzer;
 
@@ -23,12 +24,14 @@ public class HanLPAnalyzerProvider extends AbstractIndexAnalyzerProvider<HanLPAn
 
     public HanLPAnalyzerProvider(IndexSettings indexSettings, Environment env, String name, Settings settings) {
         super(indexSettings, name, settings);
+        DicConfig.initConfig(env, settings);
         Tuple<Segment, Set<String>> tuple = ConfigHelper.getSegmentAndFilter(settings);
         analyzer = new HanLPAnalyzer(tuple.v1(), tuple.v2());
     }
 
     public HanLPAnalyzerProvider(IndexSettings indexSettings, Environment env, String name, Settings settings, HanLPConfig config) {
         super(indexSettings, name, settings);
+        DicConfig.initConfig(env, settings);
         analyzer = new HanLPAnalyzer(ConfigHelper.getSegment(config), ConfigHelper.getStopWords(config));
     }
 

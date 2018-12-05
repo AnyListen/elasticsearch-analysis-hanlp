@@ -76,6 +76,7 @@
                     <outputDirectory>${project.build.directory}/releases/</outputDirectory>
                     <descriptors>
                         <descriptor>${basedir}/src/main/java/assembly/plugin.xml</descriptor>
+                        <!--<descriptor>${basedir}/src/main/java/assembly/plugin-jar.xml</descriptor>-->
                     </descriptors>
                     <archive>
                         <manifest>
