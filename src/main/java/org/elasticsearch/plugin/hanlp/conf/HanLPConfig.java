@@ -1,5 +1,6 @@
 package org.elasticsearch.plugin.hanlp.conf;
 
+
 /**
  * elasticsearch-analysis-hanlp
  * elasticsearch-analysis-hanlp

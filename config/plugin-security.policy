@@ -1,4 +1,4 @@
-grant {
+grant codeBase "$ES_HOME/plugin/analysis-hanlp/*.jar" {
     permission java.io.FilePermission "<<ALL FILES>>", "read, write, execute, delete";
     permission java.net.SocketPermission "*", "connect,resolve";
     permission java.util.PropertyPermission "*", "read,write";

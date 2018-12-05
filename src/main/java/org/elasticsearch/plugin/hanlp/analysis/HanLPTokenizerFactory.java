@@ -1,5 +1,6 @@
 package org.elasticsearch.plugin.hanlp.analysis;
 
+
 import com.hankcs.hanlp.seg.Segment;
 import org.apache.lucene.analysis.Tokenizer;
 import org.elasticsearch.common.collect.Tuple;

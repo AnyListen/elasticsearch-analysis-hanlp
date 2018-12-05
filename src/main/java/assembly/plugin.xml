@@ -11,6 +11,12 @@
             <outputDirectory>/</outputDirectory>
         </fileSet>
     </fileSets>
+    <files>
+        <file>
+            <source>${project.basedir}/src/main/resources/plugin-descriptor.properties</source>
+            <filtered>true</filtered>
+        </file>
+    </files>
     <dependencySets>
         <dependencySet>
             <outputDirectory>/</outputDirectory>

@@ -6,15 +6,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-/**
- * 抄袭lucene的英文处理
- * Stemmer, implementing the Porter Stemming Algorithm
- * <p/>
- * The Stemmer class transforms a word into its root form. The input word can be
- * provided a character at time (by calling add()), or at once by calling one of
- * the various stem(something) methods.
- */
-
 public class PorterStemmer {
     private char[] b;
     private int i, /* offset into b */

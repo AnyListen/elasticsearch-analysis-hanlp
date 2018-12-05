@@ -1,14 +1,5 @@
-/*
- * <summary></summary>
- * <author>hankcs</author>
- * <email>me@hankcs.com</email>
- * <create-date>2015/10/6 18:51</create-date>
- *
- * <copyright file="SegmentWrapper.java">
- * Copyright (c) 2003-2015, hankcs. All Right Reserved, http://www.hankcs.com/
- * </copyright>
- */
 package org.elasticsearch.plugin.hanlp.lucene;
+
 
 import com.hankcs.hanlp.seg.Segment;
 import com.hankcs.hanlp.seg.common.Term;

@@ -11,10 +11,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-
 /**
- * elasticsearch-plugin-hanlp
- * Created by 何志龙 on 2017-10-23.
+ * @author hankcs
  */
 public class HanLPTokenFilter extends TokenFilter {
     private CharTermAttribute termAtt = (CharTermAttribute) this.addAttribute(CharTermAttribute.class);

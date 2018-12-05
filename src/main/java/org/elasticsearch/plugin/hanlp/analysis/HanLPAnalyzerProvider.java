@@ -1,5 +1,6 @@
 package org.elasticsearch.plugin.hanlp.analysis;
 
+
 import com.hankcs.hanlp.seg.Segment;
 import org.elasticsearch.common.collect.Tuple;
 import org.elasticsearch.common.settings.Settings;

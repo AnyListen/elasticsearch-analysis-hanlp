@@ -1,5 +1,6 @@
 package org.elasticsearch.plugin.hanlp.conf;
 
+
 import com.hankcs.hanlp.HanLP;
 import com.hankcs.hanlp.corpus.io.IOUtil;
 import com.hankcs.hanlp.seg.Segment;
@@ -167,3 +168,4 @@ public class ConfigHelper {
         return Tuple.tuple(getSegment(config), getStopWords(config));
     }
 }
+

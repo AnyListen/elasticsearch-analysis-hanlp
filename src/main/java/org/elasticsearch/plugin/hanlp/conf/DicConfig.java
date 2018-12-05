@@ -1,5 +1,6 @@
 package org.elasticsearch.plugin.hanlp.conf;
 
+
 import com.hankcs.hanlp.utility.Predefine;
 import com.hankcs.hanlp.utility.TextUtility;
 import org.apache.logging.log4j.Logger;
@@ -51,7 +52,7 @@ public class DicConfig {
             this.remoteDicUrl = properties.getProperty("remoteDicUrl", "");
             if (TextUtility.isBlank(this.configPath)){
                 if (getDefDicConfigPath().toFile().exists()){
-                    this.configPath = getPluginPath().toString();
+                    this.configPath = getPluginPath().toAbsolutePath().toString();
                 }
             }
             if (TextUtility.isBlank(this.configPath)){
@@ -69,15 +70,15 @@ public class DicConfig {
     }
 
     private Path getPluginPath(){
-        return PathUtils.get(new File(AnalysisHanLPPlugin.class.getProtectionDomain().getCodeSource().getLocation().getPath()).getParent()).toAbsolutePath();
+        return this.env.modulesFile().resolve("analysis-hanlp").toAbsolutePath();
     }
 
     private Path getDefDicConfigPath() {
-        return PathUtils.get(getPluginPath().toString(), "hanlp.properties").toAbsolutePath();
+        return this.env.modulesFile().resolve("analysis-hanlp/hanlp.properties").toAbsolutePath();
     }
 
     private Path getConfigFilePath() {
-        return PathUtils.get(getPluginPath().toString(), "plugin.properties").toAbsolutePath();
+        return this.env.modulesFile().resolve("analysis-hanlp/plugin.properties").toAbsolutePath();
     }
 
     public Environment getEnv() {

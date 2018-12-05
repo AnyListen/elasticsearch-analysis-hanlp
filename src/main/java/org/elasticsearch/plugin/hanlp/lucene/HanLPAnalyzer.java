@@ -55,3 +55,4 @@ public class HanLPAnalyzer extends Analyzer {
         return new TokenStreamComponents(tokenizer);
     }
 }
+

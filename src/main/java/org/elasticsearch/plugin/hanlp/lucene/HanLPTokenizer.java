@@ -1,6 +1,5 @@
 package org.elasticsearch.plugin.hanlp.lucene;
 
-
 import com.hankcs.hanlp.collection.trie.bintrie.BinTrie;
 import com.hankcs.hanlp.corpus.tag.Nature;
 import com.hankcs.hanlp.seg.Segment;
@@ -17,7 +16,7 @@ import java.io.IOException;
 import java.util.Set;
 
 /**
- * Tokenizer，抄袭ansj的
+ * @author hankcs
  */
 public class HanLPTokenizer extends Tokenizer {
     // 当前词
