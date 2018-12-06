@@ -12,10 +12,14 @@ HanLP Analysis for Elasticsearch
 - hanlp_index：细粒度切分
 - hanlp_smart：常规切分
 - hanlp_nlp：命名实体识别
+- hanlp_per：感知机分词
+- hanlp_crf：CRF分词
 - hanlp：自定义
 
 ### 分词器(Tokenizer)
 - hanlp_index：细粒度切分
 - hanlp_smart：常规切分
 - hanlp_nlp：命名实体识别
+- hanlp_per：感知机分词
+- hanlp_crf：CRF分词
 - hanlp：自定义
