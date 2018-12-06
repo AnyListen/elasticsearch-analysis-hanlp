@@ -1,11 +1,9 @@
 package org.elasticsearch.plugin.hanlp.conf;
 
 
-import com.hankcs.hanlp.HanLP;
 import com.hankcs.hanlp.utility.Predefine;
 import com.hankcs.hanlp.utility.TextUtility;
 import org.apache.logging.log4j.Logger;
-import org.elasticsearch.SpecialPermission;
 import org.elasticsearch.common.logging.Loggers;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.env.Environment;
@@ -14,8 +12,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.nio.file.Path;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.Properties;
 
 /**
@@ -68,11 +64,6 @@ public class DicConfig {
             }
             Predefine.HANLP_PROPERTIES_PATH = configPath;
             logger.info("HanLP Properties Path: " + Predefine.HANLP_PROPERTIES_PATH);
-            SpecialPermission.check();
-            AccessController.doPrivileged((PrivilegedAction<Void>) () -> {
-                System.out.println(HanLP.segment("HanLP中文分词工具包！"));
-                return null;
-            });
             //todo 远程更新
         } catch (Exception ex) {
             logger.error(ex);

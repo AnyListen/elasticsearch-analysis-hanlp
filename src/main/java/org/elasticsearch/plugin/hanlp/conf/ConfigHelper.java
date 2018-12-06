@@ -7,6 +7,7 @@ import com.hankcs.hanlp.seg.Segment;
 import com.hankcs.hanlp.seg.Viterbi.ViterbiSegment;
 import com.hankcs.hanlp.utility.TextUtility;
 import org.apache.logging.log4j.Logger;
+import org.elasticsearch.SpecialPermission;
 import org.elasticsearch.common.collect.Tuple;
 import org.elasticsearch.common.logging.Loggers;
 import org.elasticsearch.common.settings.Settings;
@@ -86,6 +87,7 @@ public class ConfigHelper {
     }};
 
     public static Segment getSegment(HanLPConfig config) {
+        SpecialPermission.check();
         return AccessController.doPrivileged((PrivilegedAction<Segment>) () -> {
             Segment segment;
             if (config.getAlgorithm().equals("extend")) {
@@ -104,6 +106,7 @@ public class ConfigHelper {
                     .enablePlaceRecognize(config.isEnablePlaceRecognize())
                     .enableTranslatedNameRecognize(config.isEnableTraditionalChineseMode())
                     .enableOffset(true).enablePartOfSpeechTagging(true);
+            System.out.println( segment.seg("HanLP中文分词工具包！"));
             return segment;
         });
     }
@@ -118,6 +121,7 @@ public class ConfigHelper {
         }
         final String cfPath = filePath;
         try {
+            SpecialPermission.check();
             byte[] bytes = AccessController.doPrivileged((PrivilegedAction<byte[]>) () -> {
                 byte[] bs;
                 if (IOUtil.isResource(cfPath)) {
