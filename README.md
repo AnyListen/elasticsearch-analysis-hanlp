@@ -16,10 +16,10 @@ HanLP Analysis for Elasticsearch
 
 ## 安装使用
 ### 使用默认词典
-- 在线安装：`.\elasticsearch-plugin install file:///FILE_PATH/elasticsearch-analysis-hanlp-A.B.C.zip`
+- 在线安装：`.\elasticsearch-plugin install https://github.com/AnyListen/elasticsearch-analysis-hanlp/releases/download/vA.B.C/elasticsearch-analysis-hanlp-A.B.C.zip`
 - 离线安装：`.\elasticsearch-plugin install file:///FILE_PATH/elasticsearch-analysis-hanlp-A.B.C.zip`
 
-> 离线安装请把 `FILE_PATH` 更改为 zip 文件路径，A、B、C 对应的是 ES 版本号。
+> 离线安装请把 `FILE_PATH` 更改为 zip 文件路径；A、B、C 对应的是 ES 版本号。
 
 ### 使用自定义词典
 默认词典是精简版的词典，能够满足基本需求，但是无法使用感知机和 CRF 等基于模型的分词器。
