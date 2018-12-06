@@ -12,6 +12,8 @@ import org.elasticsearch.common.logging.Loggers;
 import org.elasticsearch.common.settings.Settings;
 
 import java.io.*;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -21,7 +23,7 @@ import java.util.Set;
  * Created by hezl on 2018-12-03.
  */
 public class ConfigHelper {
-    private static final Logger logger = Loggers.getLogger(ConfigHelper.class, "*");
+    private static final Logger logger = Loggers.getLogger(ConfigHelper.class, "ConfigHelper");
 
     public static final HanLPConfig INDEX_CONFIG = new HanLPConfig(){{
         setAlgorithm("viterbi");
@@ -83,26 +85,27 @@ public class ConfigHelper {
         setEnableTraditionalChineseMode(false);
     }};
 
-    public static Segment getSegment(HanLPConfig config){
-        Segment segment;
-        if (config.getAlgorithm().equals("extend")){
-            segment = new ViterbiSegment();
-        }
-        else{
-            segment = HanLP.newSegment(config.getAlgorithm());
-        }
-        segment.enableIndexMode(config.isEnableIndexMode())
-                .enableCustomDictionary(config.isEnableCustomDictionary())
-                .enableCustomDictionaryForcing(config.isEnableCustomDictionaryForcing())
-                .enableAllNamedEntityRecognize(config.isEnableNameRecognize())
-                .enableJapaneseNameRecognize(config.isEnableJapaneseNameRecognize())
-                .enableTranslatedNameRecognize(config.isEnableTranslatedNameRecognize())
-                .enableNumberQuantifierRecognize(config.isEnableNumberQuantifierRecognize())
-                .enableOrganizationRecognize(config.isEnableOrganizationRecognize())
-                .enablePlaceRecognize(config.isEnablePlaceRecognize())
-                .enableTranslatedNameRecognize(config.isEnableTraditionalChineseMode())
-                .enableOffset(true).enablePartOfSpeechTagging(true);
-        return segment;
+    public static Segment getSegment(HanLPConfig config) {
+        return AccessController.doPrivileged((PrivilegedAction<Segment>) () -> {
+            Segment segment;
+            if (config.getAlgorithm().equals("extend")) {
+                segment = new ViterbiSegment();
+            } else {
+                segment = HanLP.newSegment(config.getAlgorithm());
+            }
+            segment.enableIndexMode(config.isEnableIndexMode())
+                    .enableCustomDictionary(config.isEnableCustomDictionary())
+                    .enableCustomDictionaryForcing(config.isEnableCustomDictionaryForcing())
+                    .enableAllNamedEntityRecognize(config.isEnableNameRecognize())
+                    .enableJapaneseNameRecognize(config.isEnableJapaneseNameRecognize())
+                    .enableTranslatedNameRecognize(config.isEnableTranslatedNameRecognize())
+                    .enableNumberQuantifierRecognize(config.isEnableNumberQuantifierRecognize())
+                    .enableOrganizationRecognize(config.isEnableOrganizationRecognize())
+                    .enablePlaceRecognize(config.isEnablePlaceRecognize())
+                    .enableTranslatedNameRecognize(config.isEnableTraditionalChineseMode())
+                    .enableOffset(true).enablePartOfSpeechTagging(true);
+            return segment;
+        });
     }
 
     public static Set<String> getStopWords(HanLPConfig config){
@@ -113,20 +116,30 @@ public class ConfigHelper {
         if (TextUtility.isBlank(filePath)){
             filePath = HanLP.Config.CoreStopWordDictionaryPath;
         }
-        try{
-            byte[] bytes;
-            if (IOUtil.isResource(filePath)){
-                bytes = IOUtil.readBytesFromResource(filePath);
-            }
-            else{
-                bytes = IOUtil.readBytes(filePath);
+        final String cfPath = filePath;
+        try {
+            byte[] bytes = AccessController.doPrivileged((PrivilegedAction<byte[]>) () -> {
+                byte[] bs;
+                if (IOUtil.isResource(cfPath)) {
+                    try {
+                        bs = IOUtil.readBytesFromResource(cfPath);
+                    } catch (IOException e) {
+                        return new byte[0];
+                    }
+                } else {
+                    bs = IOUtil.readBytes(cfPath);
+                }
+                return bs;
+            });
+            if (bytes == null || bytes.length <= 0){
+                return null;
             }
             Set<String> resultSet = new HashSet<>();
             ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
             InputStreamReader reader = new InputStreamReader(byteArrayInputStream);
             BufferedReader br = new BufferedReader(reader);
             String str;
-            while((str = br.readLine()) != null) {
+            while ((str = br.readLine()) != null) {
                 resultSet.add(str);
             }
             br.close();

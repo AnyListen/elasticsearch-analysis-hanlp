@@ -24,7 +24,7 @@ import java.util.Properties;
  * Created by hezl on 2018-11-20.
  */
 public class DicConfig {
-    private static final Logger logger = Loggers.getLogger(DicConfig.class, "*");
+    private static final Logger logger = Loggers.getLogger(DicConfig.class, "DicConfig");
     private static Environment env;
     private static Settings settings;
     private static String configPath;
@@ -73,7 +73,6 @@ public class DicConfig {
                 System.out.println(HanLP.segment("HanLP中文分词工具包！"));
                 return null;
             });
-
             //todo 远程更新
         } catch (Exception ex) {
             logger.error(ex);
