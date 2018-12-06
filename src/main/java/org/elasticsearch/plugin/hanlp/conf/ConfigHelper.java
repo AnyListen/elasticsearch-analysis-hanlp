@@ -3,6 +3,7 @@ package org.elasticsearch.plugin.hanlp.conf;
 
 import com.hankcs.hanlp.HanLP;
 import com.hankcs.hanlp.corpus.io.IOUtil;
+import com.hankcs.hanlp.corpus.io.ResourceIOAdapter;
 import com.hankcs.hanlp.seg.Segment;
 import com.hankcs.hanlp.seg.Viterbi.ViterbiSegment;
 import com.hankcs.hanlp.utility.TextUtility;
@@ -127,9 +128,15 @@ public class ConfigHelper {
     }};
 
     public static Segment getSegment(HanLPConfig config) {
-        SpecialPermission.check();
+        //SpecialPermission.check();
         return AccessController.doPrivileged((PrivilegedAction<Segment>) () -> {
             Segment segment;
+            if ("crf".equals(config.getAlgorithm()) || "条件随机场".equals(config.getAlgorithm()) ||
+                    "perceptron".equals(config.getAlgorithm()) || "感知机".equals(config.getAlgorithm())) {
+                if (HanLP.Config.IOAdapter instanceof ResourceIOAdapter){
+                    return null;
+                }
+            }
             if (config.getAlgorithm().equals("extend")) {
                 segment = new ViterbiSegment();
             } else {
@@ -138,7 +145,7 @@ public class ConfigHelper {
             segment.enableIndexMode(config.isEnableIndexMode())
                     .enableCustomDictionary(config.isEnableCustomDictionary())
                     .enableCustomDictionaryForcing(config.isEnableCustomDictionaryForcing())
-                    .enableAllNamedEntityRecognize(config.isEnableNameRecognize())
+                    .enableNameRecognize(config.isEnableNameRecognize())
                     .enableJapaneseNameRecognize(config.isEnableJapaneseNameRecognize())
                     .enableTranslatedNameRecognize(config.isEnableTranslatedNameRecognize())
                     .enableNumberQuantifierRecognize(config.isEnableNumberQuantifierRecognize())
@@ -161,7 +168,7 @@ public class ConfigHelper {
         }
         final String cfPath = filePath;
         try {
-            SpecialPermission.check();
+            //SpecialPermission.check();
             byte[] bytes = AccessController.doPrivileged((PrivilegedAction<byte[]>) () -> {
                 byte[] bs;
                 if (IOUtil.isResource(cfPath)) {
