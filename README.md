@@ -15,6 +15,11 @@ HanLP Analysis for Elasticsearch
 - 6.X 在 6.0.0、6.3.0、6.4.1、6.5.1 版本进行了测试。
 
 ## 安装使用
+### 下载编译
+git clone 对应版本的代码，打开 `pom.xml` 文件，修改 `<elasticsearch.version>6.5.1</elasticsearch.version>` 为需要的 ES 版本；然后使用 `mvn package` 生产打包文件，最终文件在 `target/release` 文件夹下。
+
+打包完成后，使用离线方式安装即可。
+
 ### 使用默认词典
 - 在线安装：`.\elasticsearch-plugin install https://github.com/AnyListen/elasticsearch-analysis-hanlp/releases/download/vA.B.C/elasticsearch-analysis-hanlp-A.B.C.zip`
 - 离线安装：`.\elasticsearch-plugin install file:///FILE_PATH/elasticsearch-analysis-hanlp-A.B.C.zip`
