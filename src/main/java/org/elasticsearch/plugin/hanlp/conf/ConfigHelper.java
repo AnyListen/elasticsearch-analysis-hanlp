@@ -86,6 +86,46 @@ public class ConfigHelper {
         setEnableTraditionalChineseMode(false);
     }};
 
+    public static final HanLPConfig PERCEPTRON_CONFIG = new HanLPConfig(){{
+        setAlgorithm("perceptron");
+        setEnableIndexMode(false);
+        //CustomDic
+        setCustomDictionaryPath("");
+        setEnableCustomDictionary(true);
+        setEnableCustomDictionaryForcing(false);
+        //StopWord
+        setEnableStopWord(false);
+        setStopWordDictionaryPath("");
+        //NLP
+        setEnableNameRecognize(true);
+        setEnableJapaneseNameRecognize(false);
+        setEnableTranslatedNameRecognize(false);
+        setEnableNumberQuantifierRecognize(true);
+        setEnableOrganizationRecognize(true);
+        setEnablePlaceRecognize(true);
+        setEnableTraditionalChineseMode(false);
+    }};
+
+    public static final HanLPConfig CRF_CONFIG = new HanLPConfig(){{
+        setAlgorithm("crf");
+        setEnableIndexMode(false);
+        //CustomDic
+        setCustomDictionaryPath("");
+        setEnableCustomDictionary(true);
+        setEnableCustomDictionaryForcing(false);
+        //StopWord
+        setEnableStopWord(false);
+        setStopWordDictionaryPath("");
+        //NLP
+        setEnableNameRecognize(true);
+        setEnableJapaneseNameRecognize(false);
+        setEnableTranslatedNameRecognize(false);
+        setEnableNumberQuantifierRecognize(true);
+        setEnableOrganizationRecognize(true);
+        setEnablePlaceRecognize(true);
+        setEnableTraditionalChineseMode(false);
+    }};
+
     public static Segment getSegment(HanLPConfig config) {
         SpecialPermission.check();
         return AccessController.doPrivileged((PrivilegedAction<Segment>) () -> {

@@ -47,6 +47,14 @@ public class HanLPAnalyzerProvider extends AbstractIndexAnalyzerProvider<HanLPAn
         return new HanLPAnalyzerProvider(indexSettings, env, name, settings, ConfigHelper.NLP_CONFIG);
     }
 
+    public static HanLPAnalyzerProvider getPerceptronAnalyzerProvider(IndexSettings indexSettings, Environment env, String name, Settings settings) {
+        return new HanLPAnalyzerProvider(indexSettings, env, name, settings, ConfigHelper.PERCEPTRON_CONFIG);
+    }
+
+    public static HanLPAnalyzerProvider getCRFAnalyzerProvider(IndexSettings indexSettings, Environment env, String name, Settings settings) {
+        return new HanLPAnalyzerProvider(indexSettings, env, name, settings, ConfigHelper.CRF_CONFIG);
+    }
+
     @Override
     public HanLPAnalyzer get() {
         return this.analyzer;
