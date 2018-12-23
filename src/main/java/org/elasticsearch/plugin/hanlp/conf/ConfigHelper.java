@@ -131,16 +131,22 @@ public class ConfigHelper {
         //SpecialPermission.check();
         return AccessController.doPrivileged((PrivilegedAction<Segment>) () -> {
             Segment segment;
-            if ("crf".equals(config.getAlgorithm()) || "条件随机场".equals(config.getAlgorithm()) ||
-                    "perceptron".equals(config.getAlgorithm()) || "感知机".equals(config.getAlgorithm())) {
-                if (HanLP.Config.IOAdapter instanceof ResourceIOAdapter){
+            String algorithm = config.getAlgorithm();
+            if ("crf".equals(algorithm) || "条件随机场".equals(algorithm) ||
+                    "perceptron".equals(algorithm) || "感知机".equals(algorithm)) {
+                if (HanLP.Config.IOAdapter instanceof ResourceIOAdapter) {
                     return null;
                 }
             }
-            if (config.getAlgorithm().equals("extend")) {
-                segment = new ViterbiSegment();
+            if ("viterbi".equals(algorithm) || "维特比".equals(algorithm)) {
+                String customDictionaryPath = config.getCustomDictionaryPath();
+                if (TextUtility.isBlank(customDictionaryPath)) {
+                    segment = new ViterbiSegment();
+                } else {
+                    segment = new ViterbiSegment(customDictionaryPath);
+                }
             } else {
-                segment = HanLP.newSegment(config.getAlgorithm());
+                segment = HanLP.newSegment(algorithm);
             }
             segment.enableIndexMode(config.isEnableIndexMode())
                     .enableCustomDictionary(config.isEnableCustomDictionary())
@@ -153,7 +159,7 @@ public class ConfigHelper {
                     .enablePlaceRecognize(config.isEnablePlaceRecognize())
                     .enableTranslatedNameRecognize(config.isEnableTraditionalChineseMode())
                     .enableOffset(true).enablePartOfSpeechTagging(true);
-            System.out.println( segment.seg("HanLP中文分词工具包！"));
+            System.out.println(segment.seg("HanLP中文分词工具包！"));
             return segment;
         });
     }
