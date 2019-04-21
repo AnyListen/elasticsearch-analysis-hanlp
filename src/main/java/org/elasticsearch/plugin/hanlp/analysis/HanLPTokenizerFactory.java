@@ -24,13 +24,13 @@ public class HanLPTokenizerFactory extends AbstractTokenizerFactory {
     private Tuple<Segment, Set<String>> tuple;
 
     public HanLPTokenizerFactory(IndexSettings indexSettings, Environment env, String name, Settings settings) {
-        super(indexSettings, name, settings);
+        super(indexSettings, settings);
         DicConfig.initConfig(env, settings);
         tuple = ConfigHelper.getSegmentAndFilter(settings);
     }
 
     public HanLPTokenizerFactory(IndexSettings indexSettings, Environment env, String name, Settings settings, HanLPConfig config) {
-        super(indexSettings, name, settings);
+        super(indexSettings, settings);
         DicConfig.initConfig(env, settings);
         tuple = Tuple.tuple(ConfigHelper.getSegment(config), ConfigHelper.getStopWords(config));
     }

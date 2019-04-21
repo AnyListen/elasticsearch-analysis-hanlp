@@ -11,8 +11,8 @@
     <description>HanLP Analyzer for Elasticsearch</description>
 
     <properties>
-        <elasticsearch.version>6.5.1</elasticsearch.version>
-        <hanlp.version>portable-1.7.1</hanlp.version>
+        <elasticsearch.version>7.0.0</elasticsearch.version>
+        <hanlp.version>portable-1.7.3</hanlp.version>
         <maven.compiler.target>1.8</maven.compiler.target>
         <elasticsearch.assembly.descriptor>${project.basedir}/src/main/resources/plugin-descriptor.properties</elasticsearch.assembly.descriptor>
         <elasticsearch.plugin.name>analysis-hanlp</elasticsearch.plugin.name>
